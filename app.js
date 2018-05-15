@@ -1,5 +1,6 @@
-const request = require('request');
 const yargs = require('yargs');
+
+const geocode = require('./geocode/geocode');
 
 const argv = yargs
 .options({
@@ -14,17 +15,10 @@ const argv = yargs
 .alias('help', 'h')
 .argv;
 
-console.log(yargs.argv);
-
-var proxiedRequest = request.defaults({proxy: 'http://d895370:Ferds18Melbs!@http-gw.tcif.telstra.com.au:8080'});
-
-proxiedRequest.get({
-        url: 'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAVt5fixLsWfb0ausv__pFqPfGU6umZ2iE&address=242%20exhibition%20street%20melbourne',
-        json: true
-    },
-    (error, response, body) => {
-        console.log(`address: ${body.results[0].formatted_address}:`);
-        console.log(`lat: ${body.results[0].geometry.location.lat}:`);
-        console.log(`lng: ${body.results[0].geometry.location.lng}:`);
+geocode.geocodeAddress(argv.address, (errorMessage, results) => {
+    if(errorMessage){
+        console.log(errorMessage);
+    } else {
+        console.log(JSON.stringify(results, undefined, 2));
     }
-);
+});
