@@ -1,6 +1,8 @@
 const request = require('request');
 const yargs = require('yargs');
 
+const global = require('./global');
+
 const argv = yargs
 .options({
     a: {
@@ -16,7 +18,7 @@ const argv = yargs
 
 console.log(yargs.argv);
 
-var proxiedRequest = request.defaults({proxy: 'http://d895370:Ferds18Melbs!@http-gw.tcif.telstra.com.au:8080'});
+var proxiedRequest = request.defaults({proxy: global.proxy});
 
 proxiedRequest.get({
         url: 'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAVt5fixLsWfb0ausv__pFqPfGU6umZ2iE&address=242%20exhibition%20street%20melbourne',
